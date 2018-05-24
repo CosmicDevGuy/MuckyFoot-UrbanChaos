@@ -8,9 +8,11 @@
 //---------------------------------------------------------------
 
 // Standard 'C' includes.
+//UPDATE @CosmicDevGuy (2018/05/23): Updated references, so that header files could be located properly (by source and/or header files)
+//UPDATE @CosmicDevGuy (2018/05/23): Addressed issue with <iostream.h> -> <iostream>
 #if !defined(TARGET_DC)
-#include	<iostream.h>
-#include	<time.h>
+	#include	<iostream>
+	#include	<time.h>
 #endif
 #include	<stdio.h>
 #include	<stdlib.h>
@@ -40,10 +42,11 @@
 #define DIRECTINPUT_VERSION 0x0700
 #endif
 #endif
+//@CosmicDevGuy (2018/05/23): Dplay removed, requires rewrite of dplay-dependent graphics library/module
 #include	<dinput.h>
-#include	<dplay.h>
 #include	<dsound.h>
 #include	<d3d.h>
+
 
 #ifdef TARGET_DC
 #include "target.h"
@@ -81,16 +84,17 @@ typedef struct
 
 //---------------------------------------------------------------
 // MF Standard includes.
-
-#include	"StdFile.h"
-#include	"StdKeybd.h"
-#include	"StdMaths.h"
-#include	"StdMem.h"
-#include	"StdMouse.h"
+//UPDATE @CosmicDevGuy (2018/05/23): Updated references, so that header files could be located properly (by source and/or header files)
+#include	"../../MFStdLib/Headers/StdFile.h"
+#include	"../../MFStdLib/Headers/StdKeybd.h"
+#include	"../../MFStdLib/Headers/StdMaths.h"
+#include	"../../MFStdLib/Headers/StdMem.h"
+#include	"../../MFStdLib/Headers/StdMouse.h"
 
 //---------------------------------------------------------------
 // Display
 
+//@CosmicDevGuy (2018/05/24): 
 #define	FLAGS_USE_3DFX			(1<<0)
 #define	FLAGS_USE_3D			(1<<1)
 #define	FLAGS_USE_WORKSCREEN	(1<<2)
@@ -284,9 +288,13 @@ void	SetListenerPosition(SLONG x,SLONG y,SLONG z,SLONG scale);
 //
 // Stuff put in by Mark...
 //
-
-#define INFINITY		0x7fffffff
-#define PI				(3.14159265F)
+//@CosmicDevGuy (2018/05/24): Well, Mark, math.h already has the macro(s) so... I'll just add a #ifndef as a fallback *in case* the macro(s) aren't there.
+#ifndef INFINITY
+	#define INFINITY		0x7fffffff
+#endif
+#ifndef PI
+	#define PI				(3.14159265F)
+#endif
 #define WITHIN(x,a,b)	((x) >= (a) && (x) <= (b))
 #define SATURATE(x,a,b)	{if ((x) < (a)) {(x) = (a);} else if ((x) > (b)) {(x) = (b);}}
 #define SWAP(a,b)		{SLONG temp; temp = (a); (a) = (b); (b) = temp;}
